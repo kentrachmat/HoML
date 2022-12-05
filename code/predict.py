@@ -2,17 +2,23 @@ import numpy as np
 import torch
 from test_dataset import TestDataset
 from torch.utils.data import DataLoader
-from custom_model import Net_2
+from custom_model import Net_2, FineTunedEffnet
 from train_custom import load_best_params
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu") # automatically select on what device to run the code
 
 
-def load_model():
+def load_model_scratch():
     params = load_best_params()
     model = Net_2(params['fc_neurons'], 
                   params['channels'])
-    model.load_state_dict(torch.load('../data/trained_model'))
+    model.load_state_dict(torch.load('../data/trained_model_scratch'))
+
+    return model.to(device)
+
+def load_model_effnet():
+    model = FineTunedEffnet()
+    model.load_state_dict(torch.load('../data/trained_model_effnet'))
 
     return model.to(device)
 
@@ -30,7 +36,7 @@ def predict(data_loader, model):
 
 if __name__ == '__main__':
 
-    model = load_model()
+    model = load_model_effnet()
 
     valid_data = TestDataset('../data/new_data/valid', 'valid')
     test_data = TestDataset('../data/new_data/test', 'test')
