@@ -6,7 +6,7 @@ from torchvision import transforms
 from torchvision import datasets
 from torch.utils.data import DataLoader
 
-from custom_model import Net_2
+from custom_model import Net_2, FineTunedEffnet
 
 
 PATH_TO_TRAIN = '../data/new_data/train'
@@ -87,19 +87,32 @@ def load_best_params():
 
 
 if __name__ == '__main__':
-    lr = 1e-3
-    model_params = {
-        'fc_neurons': 70,
-        'channels': [16, 20, 28]
-    }
+    RANDOM_PARAMS = False
+    BEST_PARAMS = False
+    EFF_NET = True
 
-    best_params = load_best_params()
-    model = Net_2(best_params['fc_neurons'], 
-                  best_params['channels'])
+    if RANDOM_PARAMS:
+        lr = 1e-3
+        model_params = {
+            'fc_neurons': 70,
+            'channels': [16, 20, 28]
+        }
+        model = Net_2(**model_params)
+
+    elif BEST_PARAMS:
+        best_params = load_best_params()
+        model = Net_2(best_params['fc_neurons'], 
+                    best_params['channels'])
+        lr = best_params['lr']
+
+    elif EFF_NET:
+        lr = 1e-4
+        model = FineTunedEffnet()
+
+
     model.to(device)
-
-    for epoch in range(1):
-        train(best_params['lr'], model)
+    for epoch in range(5):
+        train(lr, model)
 
     evaluate(model)
 

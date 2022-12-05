@@ -1,9 +1,12 @@
 from torch import nn
 from torch.nn import functional as F
+import torch
+import numpy as np
+from torchvision import models
+import torchvision 
 
-
+NUM_CLASSES = 13
 class Net_2(nn.Module):
-    NUM_CLASSES = 13
 
     def __init__(self, fc_neurons, channels):
         super(Net_2, self).__init__()
@@ -16,7 +19,7 @@ class Net_2(nn.Module):
         self.bn2 = nn.BatchNorm2d(Y)
         self.bn3 = nn.BatchNorm2d(Z)
         self.fc1 = nn.Linear(Z,fc_neurons)
-        self.fc2 = nn.Linear(fc_neurons, self.NUM_CLASSES)
+        self.fc2 = nn.Linear(fc_neurons, NUM_CLASSES)
         
         self.activation = nn.ReLU()
         self.drop = nn.Dropout(p=0.25)
@@ -40,4 +43,23 @@ class Net_2(nn.Module):
 
         return x
 
+
+class FineTunedEffnet(nn.Module):
+
+    normalize = torchvision.transforms.Normalize(
+        mean=[0.485, 0.456, 0.406],
+        std=[0.229, 0.224, 0.225]
+    )
+
+    model_weights = torchvision.models.EfficientNet_B0_Weights.DEFAULT
+
+    def __init__(self):
+        super(FineTunedEffnet, self).__init__()
+        self.effnet = models.efficientnet_b0(weights=self.model_weights)
+        self.effnet.classifier[1] = nn.Linear(1280, NUM_CLASSES)
+
+    def forward(self, x):
+        x = self.normalize(x)
+        y = self.effnet(x)
+        return y
 
