@@ -131,3 +131,4 @@ dmypy.json
 
 # Image data
 *.png
+.DS_Store
