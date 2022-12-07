@@ -134,7 +134,4 @@ dmypy.json
 # Unnecessary files/folders
 others
 data
-data
-
 .DS_Store
-public.env
