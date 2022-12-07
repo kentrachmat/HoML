@@ -133,7 +133,8 @@ dmypy.json
 
 # Unnecessary files/folders
 others
-new_data
-data/public_data
-data/sample_data
+data
+data
+
 .DS_Store
+public.env
