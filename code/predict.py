@@ -49,8 +49,3 @@ if __name__ == '__main__':
 
     np.savetxt('../results/Areal_valid.predict', valid_predict, fmt='%d')
     np.savetxt('../results/Areal_test.predict', test_predict, fmt='%d')
-
-
-
-
-

@@ -2,8 +2,6 @@ from torch.utils.data import Dataset
 from pathlib import Path
 from torchvision.io import read_image
 
-
-
 class TestDataset(Dataset):
 
     def __init__(self, path, name):

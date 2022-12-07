@@ -84,8 +84,6 @@ def load_best_params():
     }
     return params
 
-
-
 if __name__ == '__main__':
     RANDOM_PARAMS = False
     BEST_PARAMS = False
@@ -115,5 +113,3 @@ if __name__ == '__main__':
         train(lr, model)
 
     evaluate(model)
-
-    
