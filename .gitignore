@@ -1,4 +1,3 @@
-others
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -131,4 +130,10 @@ dmypy.json
 
 # Image data
 *.png
+
+# Unnecessary files/folders
+others
+new_data
+data/public_data
+data/sample_data
 .DS_Store
