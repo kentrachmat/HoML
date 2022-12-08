@@ -1,11 +1,9 @@
 import json
 import torch
-from torch import nn
 import torch.optim as optim
-from torchvision import transforms
-from torchvision import datasets
+from torch import nn
+from torchvision import transforms, datasets
 from torch.utils.data import DataLoader
-
 from custom_model import Net_2, FineTunedEffnet
 
 
@@ -67,7 +65,6 @@ def evaluate(model):
 
     print('Accuracy:', accuracy)
     return avg_loss
-
 
 def load_best_params():
     with open('../data/best_params.json') as infile:
