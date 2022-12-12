@@ -27,15 +27,16 @@ class Net_2(nn.Module):
 
 
     def forward(self, x):
-        x = self.conv1(x)
-        x = self.pool(self.activation(self.bn1(x)))
+        """
+        Forward pass of the network
 
-        x = self.conv2(x)
-        x = self.pool(self.activation(self.bn2(x)))
-        
-        x = self.conv3(x)
-        x = self.pool(self.activation(self.bn3(x)))
+        Args:
+            x: batch of images tensor(n, 3, 128, 128)
 
+        Returns:
+            logits of the images tensor(n, 13)
+        """        
+        x = self.features(x)
         x = F.adaptive_avg_pool2d(x,  (1, 1))
         x = x.view(-1, x.shape[1]*x.shape[2]*x.shape[3])
         x = self.activation(self.fc1(x))
@@ -44,6 +45,10 @@ class Net_2(nn.Module):
         return x
 
     def features(self, x):
+        """
+        Extracts the feature maps using the 
+        convolutional layers
+        """
         x = self.conv1(x)
         x = self.pool(self.activation(self.bn1(x)))
 
@@ -58,11 +63,15 @@ class Net_2(nn.Module):
 
 class FineTunedEffnet(nn.Module):
 
+    # The normalization is done here to 
+    # keep the dataloader the same for both
+    # models
     normalize = torchvision.transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
+        mean=[0.485, 0.456, 0.406], # normalization of ImageNet
         std=[0.229, 0.224, 0.225]
     )
 
+    # Default weights, trained on ImageNet
     model_weights = torchvision.models.EfficientNet_B0_Weights.DEFAULT
 
     def __init__(self):
@@ -71,6 +80,7 @@ class FineTunedEffnet(nn.Module):
         self.effnet.classifier[1] = nn.Linear(1280, NUM_CLASSES)
 
     def forward(self, x):
+        # Normalization before passing to the model
         x = self.normalize(x)
         y = self.effnet(x)
         return y

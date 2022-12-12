@@ -8,10 +8,19 @@ device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def objective(trial: optuna.trial.Trial):
     EPOCHS = 20
+
+    # Reasonable regions for the hyperparameters
     lr = trial.suggest_float("lr", 1e-5, 1e-1, log=True)
+
+    # For the channels we use the principle of 
+    # increasing the output channels deeper in the 
+    # network
     ch_1 = trial.suggest_int("ch_1", low=8, high=16, step=2)
     ch_2 = trial.suggest_int("ch_2", low=ch_1, high=2*ch_1, step=4)
     ch_3 = trial.suggest_int("ch_3", low=ch_1, high=2*ch_2, step=4)
+
+    # We increase the features from the output channel
+    # of the cnns between 150% and 250%
     fc_neur = trial.suggest_int("fc_neurons", low=int(1.5*ch_3), high=(2.5*ch_3), step=2)
 
 
@@ -31,7 +40,10 @@ def objective(trial: optuna.trial.Trial):
 
 
 if __name__ == '__main__':
-    study = optuna.create_study(pruner=optuna.pruners.MedianPruner(n_warmup_steps=5))
+    # Warmup steps let the model train for at least
+    # 5 epochs before pruning unpromising configurations
+    pruner = optuna.pruners.MedianPruner(n_warmup_steps=5)
+    study = optuna.create_study(pruner=pruner)
     study.optimize(objective, n_trials=100)
 
     best_params = study.best_params
