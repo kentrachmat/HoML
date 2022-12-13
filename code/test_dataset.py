@@ -3,7 +3,12 @@ from pathlib import Path
 from torchvision.io import read_image
 
 class TestDataset(Dataset):
-
+    """
+        Custom Dataset to load the test and 
+        validation sets. 
+        Cannot use ImageFolder because no 
+        labels are available
+    """
     def __init__(self, path, name):
         self.path = path
         self.name = name

@@ -16,6 +16,7 @@ def load_model_scratch():
 
     return model.to(device)
 
+
 def load_model_effnet():
     model = FineTunedEffnet()
     model.load_state_dict(torch.load('../data/trained_model_effnet'))
@@ -35,7 +36,9 @@ def predict(data_loader, model):
 
 
 if __name__ == '__main__':
-
+    # Make predictions on the validation and test sets
+    # to choose between the model just change the function
+    # that gets called (either effnet or scratch)
     model = load_model_effnet()
 
     valid_data = TestDataset('../data/new_data/valid', 'valid')

@@ -23,6 +23,17 @@ criterion = nn.CrossEntropyLoss()
 
 
 def train(lr, model):
+    """Trains a given model with Adam optimizer
+    and learning rate lr (only one epoch)
+
+    Args:
+        lr: learning rate
+        model: model to train
+
+    Returns:
+        avg_loss: exponentially moving average
+        over the batches of the training set
+    """    
     optimizer = optim.Adam(model.parameters(), lr=lr)
     model.train()
 
@@ -49,6 +60,15 @@ def train(lr, model):
 
 
 def evaluate(model):
+    """Evaluates a given model on the
+    validation set
+
+    Args:
+        model (callable): the model to evaluate
+
+    Returns:
+        float: the crossentropy loss
+    """    
     model.eval()
     avg_loss = 0
     accuracy = 0
@@ -67,6 +87,10 @@ def evaluate(model):
     return avg_loss
 
 def load_best_params():
+    """
+        Reads the parameters in data/best_params.json
+        and returns a dictionary.
+    """    
     with open('../data/best_params.json') as infile:
         best_params = json.load(infile)
 
@@ -82,6 +106,12 @@ def load_best_params():
     return params
 
 if __name__ == '__main__':
+    # With these variables you can choose
+    # what type of model to train:
+    # - Manually inserting hyperparameters
+    # - Using the best hyperparameters
+    # - Finetuning EfficientNet
+
     RANDOM_PARAMS = False
     BEST_PARAMS = False
     EFF_NET = True
