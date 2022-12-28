@@ -137,6 +137,9 @@ if __name__ == '__main__':
 
     model.to(device)
     for epoch in range(5):
-        train(lr, model)
+        print('EPOCH:', epoch+1)
+        train_loss = train(lr, model)
+        print('Train loss:', train_loss)
 
-    evaluate(model)
+    eval_loss = evaluate(model)
+    print('Eval loss:', eval_loss)
