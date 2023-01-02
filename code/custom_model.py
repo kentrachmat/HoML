@@ -22,7 +22,6 @@ class Net_2(nn.Module):
         self.fc2 = nn.Linear(fc_neurons, NUM_CLASSES)
         
         self.activation = nn.ReLU()
-        self.drop = nn.Dropout(p=0.25)
         self.pool = nn.MaxPool2d(kernel_size=3, stride=2)
 
 
