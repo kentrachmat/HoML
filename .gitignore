@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # Image data
-*.png
 
 # Unnecessary files/folders
 others
