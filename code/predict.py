@@ -14,7 +14,7 @@ def load_model_scratch():
     params = load_best_params()
     model = Net_2(params['fc_neurons'], 
                   params['channels'])
-    model.load_state_dict(torch.load('../data/trained_model_scratch'))
+    model.load_state_dict(torch.load('../data/trained_model_scratch', map_location = 'cpu'))
 
     return model.to(device)
 

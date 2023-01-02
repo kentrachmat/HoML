@@ -99,7 +99,7 @@ def load_best_params():
     lr = best_params['lr']
 
     params = {
-        'lr': fc_neurons,
+        'lr': lr,
         'fc_neurons': fc_neurons,
         'channels': channels
     }
@@ -113,8 +113,8 @@ if __name__ == '__main__':
     # - Finetuning EfficientNet
 
     RANDOM_PARAMS = False
-    BEST_PARAMS = False
-    EFF_NET = True
+    BEST_PARAMS = True
+    EFF_NET = False
 
     if RANDOM_PARAMS:
         lr = 1e-3

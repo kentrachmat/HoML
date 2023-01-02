@@ -35,19 +35,6 @@ class Net_2(nn.Module):
         Returns:
             logits of the images tensor(n, 13)
         """        
-        x = self.features(x)
-        x = F.adaptive_avg_pool2d(x,  (1, 1))
-        x = x.view(-1, x.shape[1]*x.shape[2]*x.shape[3])
-        x = self.activation(self.fc1(x))
-        x = self.fc2(x)
-
-        return x
-
-    def features(self, x):
-        """
-        Extracts the feature maps using the 
-        convolutional layers
-        """
         x = self.conv1(x)
         x = self.pool(self.activation(self.bn1(x)))
 
@@ -57,7 +44,28 @@ class Net_2(nn.Module):
         x = self.conv3(x)
         x = self.pool(self.activation(self.bn3(x)))
 
+        x = F.adaptive_avg_pool2d(x,  (1, 1))
+        x = x.view(-1, x.shape[1]*x.shape[2]*x.shape[3])
+        x = self.activation(self.fc1(x))
+        x = self.fc2(x)
+
         return x
+
+#     def features(self, x):
+#         """
+#         Extracts the feature maps using the 
+#         convolutional layers
+#         """
+#         x = self.conv1(x)
+#         x = self.pool(self.activation(self.bn1(x)))
+
+#         x = self.conv2(x)
+#         x = self.pool(self.activation(self.bn2(x)))
+        
+#         x = self.conv3(x)
+#         x = self.pool(self.activation(self.bn3(x)))
+
+#         return x
 
 
 class FineTunedEffnet(nn.Module):
