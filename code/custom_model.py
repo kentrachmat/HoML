@@ -51,21 +51,21 @@ class Net_2(nn.Module):
 
         return x
 
-#     def features(self, x):
-#         """
-#         Extracts the feature maps using the 
-#         convolutional layers
-#         """
-#         x = self.conv1(x)
-#         x = self.pool(self.activation(self.bn1(x)))
+    def features(self, x):
+        """
+        Extracts the feature maps using the 
+        convolutional layers
+        """
+        x = self.conv1(x)
+        x = self.pool(self.activation(self.bn1(x)))
 
-#         x = self.conv2(x)
-#         x = self.pool(self.activation(self.bn2(x)))
+        x = self.conv2(x)
+        x = self.pool(self.activation(self.bn2(x)))
         
-#         x = self.conv3(x)
-#         x = self.pool(self.activation(self.bn3(x)))
+        x = self.conv3(x)
+        x = self.pool(self.activation(self.bn3(x)))
 
-#         return x
+        return x
 
 
 class FineTunedEffnet(nn.Module):
