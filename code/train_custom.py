@@ -107,12 +107,6 @@ def load_best_params():
     return params
 
 if __name__ == '__main__':
-    # With these variables you can choose
-    # what type of model to train:
-    # - Manually inserting hyperparameters
-    # - Using the best hyperparameters
-    # - Finetuning EfficientNet
-
     argparser = argparse.ArgumentParser()
     argparser.add_argument("model", choices=["scratch", "effnet"])
 
