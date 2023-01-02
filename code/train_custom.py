@@ -1,3 +1,4 @@
+import argparse
 import json
 import torch
 import torch.optim as optim
@@ -112,25 +113,19 @@ if __name__ == '__main__':
     # - Using the best hyperparameters
     # - Finetuning EfficientNet
 
-    RANDOM_PARAMS = False
-    BEST_PARAMS = True
-    EFF_NET = False
+    argparser = argparse.ArgumentParser()
+    argparser.add_argument("model", choices=["scratch", "effnet"])
 
-    if RANDOM_PARAMS:
-        lr = 1e-3
-        model_params = {
-            'fc_neurons': 70,
-            'channels': [16, 20, 28]
-        }
-        model = Net_2(**model_params)
+    args = argparser.parse_args()
 
-    elif BEST_PARAMS:
+
+    if args.model == 'scratch':
         best_params = load_best_params()
         model = Net_2(best_params['fc_neurons'], 
                     best_params['channels'])
         lr = best_params['lr']
 
-    elif EFF_NET:
+    if args.model == 'effnet':
         lr = 1e-4
         model = FineTunedEffnet()
 
